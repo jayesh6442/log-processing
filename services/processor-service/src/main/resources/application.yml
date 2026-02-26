@@ -34,9 +34,8 @@ app:
   kafka:
     topics:
       log-events: log-events
+      service-events: service-events
       alerts: alerts
-  ingestion:
-    base-url: http://localhost:8081
 
 server:
   port: 8082

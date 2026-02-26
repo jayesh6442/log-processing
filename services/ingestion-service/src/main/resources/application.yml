@@ -29,6 +29,7 @@ app:
   kafka:
     topics:
       log-events: log-events
+      service-events: service-events
 
 server:
   port: 8081

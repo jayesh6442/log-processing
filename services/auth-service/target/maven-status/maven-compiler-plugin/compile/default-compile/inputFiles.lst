@@ -7,8 +7,8 @@
 /home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/config/SecurityConfig.java
 /home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/controller/AuthController.java
 /home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/security/JwtService.java
-/home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/security/CustomUserDetailsService.java
 /home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/AuthServiceApplication.java
+/home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/security/CustomUserDetailsService.java
 /home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/repository/UserRepository.java
 /home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/model/UserEntity.java
 /home/devjayesh/Projects/Java/log-process-system-v2/services/auth-service/src/main/java/com/jayesh/authservice/exception/GlobalExceptionHandler.java

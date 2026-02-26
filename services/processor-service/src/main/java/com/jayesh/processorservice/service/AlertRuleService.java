@@ -1,10 +1,8 @@
 package com.jayesh.processorservice.service;
 
-import com.jayesh.processorservice.client.IngestionServiceClient;
 import com.jayesh.processorservice.dto.AlertRuleResponse;
 import com.jayesh.processorservice.dto.CreateAlertRuleRequest;
 import com.jayesh.processorservice.exception.ConflictException;
-import com.jayesh.processorservice.exception.UnauthorizedException;
 import com.jayesh.processorservice.model.AlertRuleEntity;
 import com.jayesh.processorservice.model.LogLevel;
 import com.jayesh.processorservice.repository.AlertRuleRepository;
@@ -19,23 +17,17 @@ public class AlertRuleService {
     private static final Logger logger = LoggerFactory.getLogger(AlertRuleService.class);
 
     private final AlertRuleRepository alertRuleRepository;
-    private final IngestionServiceClient ingestionServiceClient;
+    private final ServiceOwnershipService serviceOwnershipService;
 
     public AlertRuleService(AlertRuleRepository alertRuleRepository,
-                            IngestionServiceClient ingestionServiceClient) {
+                            ServiceOwnershipService serviceOwnershipService) {
         this.alertRuleRepository = alertRuleRepository;
-        this.ingestionServiceClient = ingestionServiceClient;
+        this.serviceOwnershipService = serviceOwnershipService;
     }
 
     @Transactional
-    public AlertRuleResponse createAlertRule(Long userId,
-                                             String authorizationHeader,
-                                             CreateAlertRuleRequest request) {
-        if (authorizationHeader == null || authorizationHeader.isBlank()) {
-            throw new UnauthorizedException("Unauthorized");
-        }
-
-        ingestionServiceClient.verifyServiceOwnership(request.getServiceId(), authorizationHeader);
+    public AlertRuleResponse createAlertRule(Long userId, CreateAlertRuleRequest request) {
+        serviceOwnershipService.ensureOwnership(userId, request.getServiceId());
 
         String level = LogLevel.from(request.getLevel()).name();
         alertRuleRepository.findByUserIdAndServiceIdAndLevel(userId, request.getServiceId(), level)

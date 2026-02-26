@@ -8,13 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="processor-service" />
         <module name="ingestion-service" />
+        <module name="auth-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ingestion-service" options="" />
-      <module name="processor-service" options="" />
+      <module name="auth-service" options="-parameters" />
+      <module name="ingestion-service" options="-parameters" />
+      <module name="processor-service" options="-parameters" />
     </option>
   </component>
 </project>

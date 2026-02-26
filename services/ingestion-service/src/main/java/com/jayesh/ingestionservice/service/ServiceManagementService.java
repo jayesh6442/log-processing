@@ -1,8 +1,10 @@
 package com.jayesh.ingestionservice.service;
 
 import com.jayesh.ingestionservice.dto.CreateServiceRequest;
+import com.jayesh.ingestionservice.dto.KafkaServiceEvent;
 import com.jayesh.ingestionservice.dto.ServiceResponse;
 import com.jayesh.ingestionservice.exception.ResourceNotFoundException;
+import com.jayesh.ingestionservice.kafka.ServiceEventProducer;
 import com.jayesh.ingestionservice.model.ServiceEntity;
 import com.jayesh.ingestionservice.repository.ServiceRepository;
 import com.jayesh.ingestionservice.util.ApiKeyGenerator;
@@ -18,11 +20,14 @@ public class ServiceManagementService {
 
     private final ServiceRepository serviceRepository;
     private final ApiKeyGenerator apiKeyGenerator;
+    private final ServiceEventProducer serviceEventProducer;
 
     public ServiceManagementService(ServiceRepository serviceRepository,
-                                    ApiKeyGenerator apiKeyGenerator) {
+                                    ApiKeyGenerator apiKeyGenerator,
+                                    ServiceEventProducer serviceEventProducer) {
         this.serviceRepository = serviceRepository;
         this.apiKeyGenerator = apiKeyGenerator;
+        this.serviceEventProducer = serviceEventProducer;
     }
 
     @Transactional
@@ -34,6 +39,7 @@ public class ServiceManagementService {
 
         ServiceEntity saved = serviceRepository.save(entity);
         logger.info("event=service_created serviceId={} userId={} name={}", saved.getId(), userId, saved.getName());
+        publishServiceCreated(saved);
 
         return toResponse(saved);
     }
@@ -58,5 +64,15 @@ public class ServiceManagementService {
                 entity.getApiKey(),
                 entity.getCreatedAt()
         );
+    }
+
+    private void publishServiceCreated(ServiceEntity entity) {
+        KafkaServiceEvent event = new KafkaServiceEvent();
+        event.setServiceId(entity.getId());
+        event.setUserId(entity.getUserId());
+        event.setName(entity.getName());
+        event.setApiKey(entity.getApiKey());
+        event.setCreatedAt(entity.getCreatedAt());
+        serviceEventProducer.publishCreated(event);
     }
 }

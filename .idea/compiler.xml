@@ -13,8 +13,8 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ingestion-service" options="-parameters" />
-      <module name="processor-service" options="-parameters" />
+      <module name="ingestion-service" options="" />
+      <module name="processor-service" options="" />
     </option>
   </component>
 </project>

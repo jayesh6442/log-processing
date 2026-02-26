@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class IngestionServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(IngestionServiceApplication.class, args);
+        SpringApplication.run(
+                IngestionServiceApplication.class, args);
     }
 
 }
